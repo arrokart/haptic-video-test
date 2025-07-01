@@ -1,79 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Haptic Playback</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <style>
-    body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; }
-    video { width: 100%; margin-bottom: 10px; }
-    .log { font-size: 14px; margin-top: 10px; }
-  </style>
+  <meta charset="UTF-8" />
+  <title>Haptic Timeline Editor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <h2>📽️ Haptic Playback Mode</h2>
+  <h1>🎬 Haptic Timeline Editor</h1>
 
-  <video id="video" controls>
-    <source src="sample.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-
-  <div class="log">
-    <strong>Status:</strong> <span id="status">Loading haptic data...</span><br>
-    <strong>Triggered:</strong>
-    <ul id="hapticLog"></ul>
+  <div class="upload-section">
+    <label>Select Video:
+      <input type="file" id="videoUpload" accept="video/mp4" />
+    </label>
   </div>
 
-  <script>
-    const video = document.getElementById("video");
-    const statusText = document.getElementById("status");
-    const hapticLog = document.getElementById("hapticLog");
+  <div class="video-container">
+    <video id="video" controls></video>
+  </div>
 
-    let hapticEvents = [];
-    let triggeredIndices = new Set();
+  <div class="timeline-container">
+    <canvas id="timeline" width="800" height="80"></canvas>
+  </div>
 
-    // Load haptics.json file
-    fetch("haptics.json")
-      .then(response => response.json())
-      .then(data => {
-        hapticEvents = data;
-        statusText.textContent = "Haptic data loaded.";
-      })
-      .catch(err => {
-        statusText.textContent = "Failed to load haptics.json";
-        console.error(err);
-      });
+  <div class="editor-panel" id="editorPanel" style="display: none;">
+    <h3>Edit Haptic Span</h3>
+    <label>Start (sec): <input type="number" id="editStart" step="0.1" /></label><br />
+    <label>Duration (sec): <input type="number" id="editDuration" step="0.1" /></label><br />
+    <button id="saveSpan">💾 Save</button>
+    <button id="deleteSpan">🗑 Delete</button>
+  </div>
 
-    // Check current time while video is playing
-    video.addEventListener("timeupdate", () => {
-      const currentTime = video.currentTime;
-      hapticEvents.forEach((event, index) => {
-        if (!triggeredIndices.has(index) &&
-            currentTime >= event.time &&
-            currentTime <= event.time + 0.1) {
+  <div class="export-panel">
+    <button id="exportBtn">⬇️ Export haptics.json</button>
+  </div>
 
-          // Trigger vibration
-          if ("vibrate" in navigator) {
-            navigator.vibrate(event.duration);
-          }
-
-          triggeredIndices.add(index);
-
-          // Log to UI
-          const li = document.createElement("li");
-          li.textContent = `Vibrated at ${event.time}s for ${event.duration}ms`;
-          hapticLog.appendChild(li);
-        }
-      });
-    });
-
-    // Reset on video replay
-    video.addEventListener("seeked", () => {
-      triggeredIndices.clear();
-      hapticLog.innerHTML = "";
-    });
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
