@@ -1,26 +1,38 @@
 [
   {
-    "time": 0.67,
-    "duration": 100
+    "start": 0.28,
+    "duration": 0.36
   },
   {
-    "time": 2.37,
-    "duration": 100
+    "start": 1.54,
+    "duration": 0.71
   },
   {
-    "time": 3.57,
-    "duration": 100
+    "start": 3.2,
+    "duration": 0.22999999999999998
   },
   {
-    "time": 5.3,
-    "duration": 100
+    "start": 4.13,
+    "duration": 0.20999999999999996
   },
   {
-    "time": 6.31,
-    "duration": 100
+    "start": 5.02,
+    "duration": 0.16000000000000014
   },
   {
-    "time": 7.33,
-    "duration": 100
+    "start": 6.02,
+    "duration": 0.25
+  },
+  {
+    "start": 7.12,
+    "duration": 0.41000000000000014
+  },
+  {
+    "start": 2.53,
+    "duration": 0.31000000000000005
+  },
+  {
+    "start": 0.94,
+    "duration": 0.29000000000000004
   }
 ]
